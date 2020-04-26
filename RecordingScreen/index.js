@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Text, View, Button } from 'react-native'
 
 import styles from '../styles'
+import PermissionRequest from './PermissionRequest'
 
 const RecordingScreen = ({ text }) => {
   const [buttonStates, setButtonStates] = useState({
@@ -9,6 +10,15 @@ const RecordingScreen = ({ text }) => {
     play: false,
     upload: false
   })
+
+  const [hasPermission, setHasPermission] = useState(false)
+  if (!hasPermission) {
+    return (
+      <PermissionRequest
+        onPermissionGranted={() => console.log('granted!') || setHasPermission(true)}
+      />
+    )
+  }
 
   return (
     <View style={styles.container}>
