@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
-import { Text, View, Button } from 'react-native'
+import { LongPressGestureHandler, State } from 'react-native-gesture-handler'
+import { Text, View, Button, Vibration } from 'react-native'
 
 import styles from '../styles'
 import * as recorder from '../recorder'
 import PermissionRequest from './PermissionRequest'
+
+const VIBRATION_DURATION = 50
 
 const RecordingScreen = ({ text }) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -11,19 +14,51 @@ const RecordingScreen = ({ text }) => {
   const [audioUri, setAudioUri] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
 
-  const onRecordPress = () => {
+  const startRecording = () => {
     setIsLoading(true)
-    setIsRecording(!isRecording)
 
-    if (isRecording) {
-      return recorder.stopRecording().then(() => setIsLoading(false))
-    }
-
-    recorder.record().then(uri => {
+   recorder.record().then(uri => {
       setAudioUri(uri)
 
+      Vibration.vibrate(VIBRATION_DURATION)
       setIsLoading(false)
+      setIsRecording(true)
     })
+  }
+
+  const stopRecording = () => {
+    setIsLoading(true)
+
+    return recorder.stopRecording().then(() => {
+      Vibration.vibrate(VIBRATION_DURATION)
+
+      setIsLoading(false)
+      setIsRecording(false)
+    })
+  }
+
+  const onRecordPress = () => {
+    isRecording
+      ? stopRecording()
+      : startRecording()
+  }
+
+  const handleLongPress = ({ nativeEvent }) => {
+    switch (nativeEvent.state) {
+      case State.BEGAN:
+      case State.ACTIVE:
+        if (!isRecording) {
+          startRecording()
+        }
+
+        break;
+      case State.END:
+      case State.UNDEFINED:
+      default:
+        if (isRecording) {
+          stopRecording()
+        }
+    }
   }
 
   const onPlayPress = () => {
@@ -52,9 +87,17 @@ const RecordingScreen = ({ text }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.swipeView}>
-        <Text>{text}</Text>
-      </View>
+      <LongPressGestureHandler
+        onHandlerStateChange={handleLongPress}
+      >
+        {/* Accessible makes TalkBack treat the view as a whole, resulting in a large touchable area */}
+        <View
+          accessible
+          style={styles.swipeView}
+        >
+          <Text>{text}</Text>
+        </View>
+      </LongPressGestureHandler>
 
       <View style={styles.buttons}>
         <Button
