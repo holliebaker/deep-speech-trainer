@@ -10,6 +10,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
 
+  swipeView: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+
   buttons: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',

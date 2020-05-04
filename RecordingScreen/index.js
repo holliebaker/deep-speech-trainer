@@ -52,7 +52,9 @@ const RecordingScreen = ({ text }) => {
 
   return (
     <View style={styles.container}>
-      <Text>{text}</Text>
+      <View style={styles.swipeView}>
+        <Text>{text}</Text>
+      </View>
 
       <View style={styles.buttons}>
         <Button
