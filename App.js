@@ -19,7 +19,7 @@ const App = () => {
   }, [])
 
   if (error) {
-    return(
+    return (
       <ErrorScreen error={error} />
     )
   }

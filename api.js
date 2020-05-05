@@ -1,4 +1,4 @@
-import { get } from 'react-native-axios' 
+import { get } from 'react-native-axios'
 
 const BASE_URL = 'https://api.hameed.info'
 

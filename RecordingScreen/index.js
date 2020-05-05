@@ -51,7 +51,7 @@ const RecordingScreen = ({ text }) => {
           startRecording()
         }
 
-        break;
+        break
       case State.END:
       case State.UNDEFINED:
       default:
