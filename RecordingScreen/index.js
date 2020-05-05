@@ -17,7 +17,7 @@ const RecordingScreen = ({ text }) => {
   const startRecording = () => {
     setIsLoading(true)
 
-   recorder.record().then(uri => {
+    recorder.record().then(uri => {
       setAudioUri(uri)
 
       Vibration.vibrate(VIBRATION_DURATION)
