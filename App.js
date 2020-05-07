@@ -12,7 +12,7 @@ const App = () => {
     fetchSentence().then(({ snippet }) =>
       setSentence(snippet)
     ).catch(e => {
-      console.log(e)
+      console.log(e.response)
 
       setError(e)
     })
