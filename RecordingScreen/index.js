@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { LongPressGestureHandler, State } from 'react-native-gesture-handler'
 import { Text, View, Button, Vibration } from 'react-native'
 
@@ -13,13 +13,15 @@ const RecordingScreen = ({ text, onUpload }) => {
   const [isRecording, setIsRecording] = useState(false)
   const [audioUri, setAudioUri] = useState(null)
   const [isPlaying, setIsPlaying] = useState(false)
+  useEffect(() => {
+    // Load existing audio if it exists
+    setAudioUri(recorder.getUri())
+  }, [])
 
   const startRecording = () => {
     setIsLoading(true)
 
-    recorder.record().then(uri => {
-      setAudioUri(uri)
-
+    recorder.record().then(() => {
       Vibration.vibrate(VIBRATION_DURATION)
       setIsLoading(false)
       setIsRecording(true)
@@ -34,6 +36,7 @@ const RecordingScreen = ({ text, onUpload }) => {
 
       setIsLoading(false)
       setIsRecording(false)
+      setAudioUri(recorder.getUri())
     })
   }
 

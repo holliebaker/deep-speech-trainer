@@ -2,16 +2,30 @@ import { Audio } from 'expo-av'
 
 let recording = null
 let sound = null
+let uri = null
+
+export const clear = () => {
+  recording = null
+  sound = null
+  uri = null
+}
+
+export const getUri = () => {
+  if (!sound) return null
+
+  return uri
+}
 
 export const record = () => {
   if (recording) throw new Error('Bad state: Recording already initialised.')
 
+  sound = null
   recording = new Audio.Recording()
 
-  return recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY).then(() =>
+  return recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY).then(() =>
     recording.startAsync()
   ).then(() =>
-    recording.getURI()
+    uri = recording.getURI()
   )
 }
 

@@ -1,0 +1,3 @@
+export const NONE = null
+export const FETCH_SMIPPET_ERROR = 'FETCH_SNIPPET_ERROR'
+export const SUBMIT_RECORDING_ERROR = 'SUBMIT_RECORDING_ERROR'
