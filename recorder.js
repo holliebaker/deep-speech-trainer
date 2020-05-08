@@ -8,7 +8,7 @@ export const record = () => {
 
   recording = new Audio.Recording()
 
-  return recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY).then(() =>
+  return recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY).then(() =>
     recording.startAsync()
   ).then(() =>
     recording.getURI()
