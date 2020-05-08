@@ -12,7 +12,7 @@ const ErrorScreen = ({ error, onBack, onRetry }) =>
 
       {error.response && (
         <Text>
-          {JSON.stringify({ 
+          {JSON.stringify({
             states: error.response.status,
             body: error.response.data,
             // data: error.response.config.data,

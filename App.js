@@ -67,7 +67,7 @@ const App = () => {
     let onBack = null
     let onRetry = null
 
-    switch(errorType) {
+    switch (errorType) {
       case errorTypes.FETCH_SNIPPET_ERROR:
         onRetry = () => setShouldFetchSnippet(true)
         break
