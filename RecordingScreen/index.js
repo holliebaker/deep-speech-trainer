@@ -8,7 +8,7 @@ import PermissionRequest from './PermissionRequest'
 
 const VIBRATION_DURATION = 50
 
-const RecordingScreen = ({ text }) => {
+const RecordingScreen = ({ text, onUpload }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isRecording, setIsRecording] = useState(false)
   const [audioUri, setAudioUri] = useState(null)
@@ -116,7 +116,7 @@ const RecordingScreen = ({ text }) => {
           title='Upload'
           color='#0905c4'
           disabled={isLoading || isRecording || !audioUri || isPlaying}
-          onPress={_ => _}
+          onPress={e => onUpload(audioUri)}
         />
       </View>
     </View>
