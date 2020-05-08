@@ -9,7 +9,7 @@ export const fetchSentence = () =>
 export const submitRecording = (audio, { id, token }) =>
   patch(BASE_URL + '/speech/v1.0/snippets/', {
     id,
-    status: "y",
+    status: 'y',
     token,
     audio
   })

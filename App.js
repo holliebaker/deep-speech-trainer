@@ -25,7 +25,7 @@ const App = () => {
   }, [])
 
   const uploadAudio = uri => {
-    prepareAudioForUpload(uri).then(base64 => 
+    prepareAudioForUpload(uri).then(base64 =>
       submitRecording(base64, snippetMetadata).then(res =>
         // TODO proper handling of success - display a success toast message and load another snippet
         setSentence('Success!')
