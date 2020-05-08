@@ -7,7 +7,7 @@ export const fetchSentence = () =>
     .then(({ data }) => data)
 
 export const submitRecording = (audio, { id, token }) =>
-  patch(BASE_URL + '/speech/v1.0/snippets/', {
+  patch(BASE_URL + '/speech/v1.0/snippets/' + id, {
     id,
     status: 'y',
     token,
