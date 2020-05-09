@@ -13,3 +13,13 @@ yarn start
 ```
 
 Scan the supplied QR code or go to the url provided.
+
+## Build an Android APK
+
+```bash
+# export expo - vill land in ./dist
+expo export --public-url https://holliebaker.github.io/trainer
+
+# push to some remote place, then compile the apk
+expo build:android --public-url https://holliebaker.github.io/trainer/android-index.json
+```
