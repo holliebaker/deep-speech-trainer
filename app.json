@@ -22,7 +22,9 @@
       "**/*"
     ],
     "android": {
-      "permissions": ["RECORD_AUDIO"]
+      "permissions": ["RECORD_AUDIO"],
+      "package": "info.holliebaker.trainer",
+      "versionCode": 1
     },
     "ios": {
       "supportsTablet": true
