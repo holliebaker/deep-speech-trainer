@@ -21,7 +21,7 @@ export const record = () => {
     return Promise.reject(new Error('Bad state: Recording already initialised.'))
   }
 
-  sound = null
+  clear()
   recording = new Audio.Recording()
 
   return recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY).then(() => {
@@ -35,8 +35,6 @@ export const stopRecording = () =>
   recording.stopAndUnloadAsync().then(() =>
     recording.createNewLoadedSoundAsync().then(result => {
       sound = result.sound
-
-      recording = null
     })
   )
 
