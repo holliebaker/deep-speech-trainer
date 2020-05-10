@@ -128,7 +128,6 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
           onPress={e => onUpload(audioUri)}
         />
       </View>
-      <Text>13:00:00</Text>
     </View>
   )
 }
