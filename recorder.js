@@ -36,7 +36,9 @@ export const stopRecording = () =>
     recording.createNewLoadedSoundAsync().then(result => {
       sound = result.sound
     })
-  )
+  ).finally(() => {
+    recording = null
+  })
 
 export const play = finishedCallback => {
   if (!sound) {

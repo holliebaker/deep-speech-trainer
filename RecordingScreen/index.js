@@ -48,6 +48,10 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
   }
 
   const handleLongPress = ({ nativeEvent }) => {
+    if (isLoading || isPlaying) {
+      return
+    }
+
     switch (nativeEvent.state) {
       case State.BEGAN:
       case State.ACTIVE:
