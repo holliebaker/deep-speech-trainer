@@ -24,9 +24,9 @@ export const record = () => {
   sound = null
   recording = new Audio.Recording()
 
-  return recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY).then(() =>
+  return recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY).then(() => {
     recording.startAsync()
-  ).then(() => {
+  }).then(() => {
     uri = recording.getURI()
   })
 }

@@ -1,10 +1,11 @@
+import * as Permissions from 'expo-permissions'
 import React, { useState, useEffect } from 'react'
 import { LongPressGestureHandler, State } from 'react-native-gesture-handler'
 import { Text, View, Button, Vibration } from 'react-native'
 
 import styles from '../styles'
 import * as recorder from '../recorder'
-import PermissionRequest from './PermissionRequest'
+import PermissionRequest from '../PermissionRequest'
 
 const VIBRATION_DURATION = 50
 
@@ -83,8 +84,13 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
   if (!hasPermission) {
     return (
       <PermissionRequest
-        onPermissionGranted={() => console.log('granted!') || setHasPermission(true)}
-      />
+        permissions={[
+          Permissions.AUDIO_RECORDING
+        ]}
+        onPermissionGranted={() => setHasPermission(true)}
+      >
+        <Text>Please grant permission to record audio.</Text>
+      </PermissionRequest>
     )
   }
 
@@ -121,8 +127,8 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
           disabled={isLoading || isRecording || !audioUri || isPlaying}
           onPress={e => onUpload(audioUri)}
         />
-        <Text>Updated</Text>
       </View>
+      <Text>13:00:00</Text>
     </View>
   )
 }

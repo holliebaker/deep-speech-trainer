@@ -2,21 +2,33 @@ import * as Permissions from 'expo-permissions'
 import { Text, View, Button } from 'react-native'
 import React, { useState, useEffect } from 'react'
 
-import styles from '../../styles'
+import styles from '../styles'
 
-const PermissionRequest = ({ onPermissionGranted }) => {
+const PermissionRequest = ({ permissions, onPermissionGranted, children }) => {
   const [permissionRequest, setPermissionRequest] = useState(true)
   useEffect(() => {
+    if (!permissionRequest) return
+
     setPermissionRequest(false)
 
-    Permissions.askAsync(Permissions.AUDIO_RECORDING).then(response =>
-      response.status === 'granted' && onPermissionGranted()
-    )
+    Promise.all(
+      permissions.map(permission =>
+        Permissions.askAsync(permission)
+      )
+    ).then(responses => {
+      const allGranted = responses.filter(response =>
+        response.status === 'granted'
+      ).length === permissions.length
+
+      if (allGranted) {
+        onPermissionGranted()
+      }
+    })
   }, [permissionRequest])
 
   return (
     <View style={styles.container}>
-      <Text>This app needs permission to record audio.</Text>
+      {children}
 
       <Button
         title='Grant Permission'
