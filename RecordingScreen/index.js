@@ -121,6 +121,7 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
           disabled={isLoading || isRecording || !audioUri || isPlaying}
           onPress={e => onUpload(audioUri)}
         />
+        <Text>Updated</Text>
       </View>
     </View>
   )
