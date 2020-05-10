@@ -17,7 +17,9 @@ export const getUri = () => {
 }
 
 export const record = () => {
-  if (recording) throw new Error('Bad state: Recording already initialised.')
+  if (recording) {
+    return Promise.reject(new Error('Bad state: Recording already initialised.'))
+  }
 
   sound = null
   recording = new Audio.Recording()
@@ -39,7 +41,9 @@ export const stopRecording = () =>
   )
 
 export const play = finishedCallback => {
-  if (!sound) throw new Error('No recording to play.')
+  if (!sound) {
+    Promise.reject(new Error('No recording to play.'))
+  }
 
   sound.setOnPlaybackStatusUpdate(({ didJustFinish }) => {
     if (didJustFinish) {
@@ -52,7 +56,9 @@ export const play = finishedCallback => {
 }
 
 export const stopPlaying = () => {
-  if (!sound) throw new Error('No recording to play.')
+  if (!sound) {
+    Promise.reject(new Error('No recording to play.'))
+  }
 
   return sound.stopAsync()
 }

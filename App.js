@@ -72,6 +72,7 @@ const App = () => {
         onRetry = () => setShouldFetchSnippet(true)
         break
       case errorTypes.SUBMIT_RECORDING_ERROR:
+      case errorTypes.RECORDING_ERROR:
         onBack = () => {
           // clear the error, this will return the user to the recording screen
           setErrorType(errorTypes.NONE)
@@ -100,6 +101,7 @@ const App = () => {
     <RecordingScreen
       text={sentence}
       onUpload={uploadAudio}
+      onError={handleError(errorTypes.RECORDING_ERROR)}
     />
   )
 }

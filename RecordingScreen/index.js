@@ -8,7 +8,7 @@ import PermissionRequest from './PermissionRequest'
 
 const VIBRATION_DURATION = 50
 
-const RecordingScreen = ({ text, onUpload }) => {
+const RecordingScreen = ({ text, onUpload, onError }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isRecording, setIsRecording] = useState(false)
   const [audioUri, setAudioUri] = useState(null)
@@ -25,7 +25,7 @@ const RecordingScreen = ({ text, onUpload }) => {
       Vibration.vibrate(VIBRATION_DURATION)
       setIsLoading(false)
       setIsRecording(true)
-    })
+    }).catch(onError)
   }
 
   const stopRecording = () => {
@@ -37,7 +37,7 @@ const RecordingScreen = ({ text, onUpload }) => {
       setIsLoading(false)
       setIsRecording(false)
       setAudioUri(recorder.getUri())
-    })
+    }).catch(onError)
   }
 
   const onRecordPress = () => {
@@ -69,14 +69,14 @@ const RecordingScreen = ({ text, onUpload }) => {
     setIsPlaying(!isPlaying)
 
     if (isPlaying) {
-      return recorder.stopPlaying().then(() => setIsLoading(false))
+      return recorder.stopPlaying().then(() => setIsLoading(false)).catch(onError)
     }
 
     recorder.play(
       () => setIsPlaying(false)
     ).then(() =>
       setIsLoading(false)
-    )
+    ).catch(onError)
   }
 
   const [hasPermission, setHasPermission] = useState(false)
