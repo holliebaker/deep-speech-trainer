@@ -7,7 +7,8 @@ import styles from '../styles'
 import * as recorder from '../recorder'
 import PermissionRequest from '../PermissionRequest'
 
-const VIBRATION_DURATION = 50
+const VIBRATION_DURATION = 30
+const LONG_PRESS_DURATION = 50
 
 const RecordingScreen = ({ text, onUpload, onError }) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -53,7 +54,6 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
     }
 
     switch (nativeEvent.state) {
-      case State.BEGAN:
       case State.ACTIVE:
         if (!isRecording) {
           startRecording()
@@ -102,6 +102,7 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
     <View style={styles.container}>
       <LongPressGestureHandler
         maxDist={1000}
+        minDurationMs={LONG_PRESS_DURATION}
         onHandlerStateChange={handleLongPress}
       >
         {/* Accessible makes TalkBack treat the view as a whole, resulting in a large touchable area */}

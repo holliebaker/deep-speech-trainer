@@ -16,7 +16,7 @@ export const getUri = () => {
   return uri
 }
 
-export const record = () => {
+export const record = async () => {
   if (recording) {
     return Promise.reject(new Error('Bad state: Recording already initialised.'))
   }
@@ -24,21 +24,19 @@ export const record = () => {
   clear()
   recording = new Audio.Recording()
 
-  return recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY).then(() => {
-    recording.startAsync()
-  }).then(() => {
-    uri = recording.getURI()
-  })
+  await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY)
+  await recording.startAsync()
+
+  uri = recording.getURI()
 }
 
-export const stopRecording = () =>
-  recording.stopAndUnloadAsync().then(() =>
-    recording.createNewLoadedSoundAsync().then(result => {
-      sound = result.sound
-    })
-  ).finally(() => {
-    recording = null
-  })
+export const stopRecording = async () => {
+  await recording.stopAndUnloadAsync()
+  result = await recording.createNewLoadedSoundAsync()
+
+  sound = result.sound
+  recording = null
+}
 
 export const play = finishedCallback => {
   if (!sound) {
