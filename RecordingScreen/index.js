@@ -101,6 +101,7 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
   return (
     <View style={styles.container}>
       <LongPressGestureHandler
+        maxDist={1000}
         onHandlerStateChange={handleLongPress}
       >
         {/* Accessible makes TalkBack treat the view as a whole, resulting in a large touchable area */}
