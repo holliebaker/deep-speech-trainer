@@ -1,22 +1,26 @@
+import * as Permissions from 'expo-permissions'
 import React, { useState, useEffect } from 'react'
-import { ToastAndroid } from 'react-native'
+import { Text, ToastAndroid } from 'react-native'
 
 import ErrorScreen from '../ErrorScreen'
 import { clear } from '../util/recorder'
 import LoadingScreen from '../LoadingScreen'
 import * as errorTypes from '../util/error-types'
 import RecordingScreen from '../RecordingScreen'
+import PermissionRequest from '../PermissionRequest'
 import getErrorActions from '../util/get-error-actions'
 import { fetchSnippet, submitRecording } from '../util/api'
 import prepareAudioForUpload from '../util/prepare-audio-for-upload.js'
 
 const Main = () => {
+  const [hasPermission, setHasPermission] = useState(false)
   const [shouldFetchSnippet, setShouldFetchSnippet] = useState(true)
   const [snippet, setSnippet] = useState(null)
   const [snippetMetadata, setSnippetMetadata] = useState({})
   const [isLoading, setIsLoading] = useState(true)
   const [errorType, setErrorType] = useState(errorTypes.NONE)
   const [error, setError] = useState(null)
+
   const handleError = type => e => {
     console.log(e.response)
 
@@ -30,7 +34,7 @@ const Main = () => {
   }
 
   useEffect(() => {
-    if (!shouldFetchSnippet) return
+    if (!hasPermission || !shouldFetchSnippet) return
 
     clear() // clear any recordings of previous snippets
     clearError()
@@ -45,7 +49,7 @@ const Main = () => {
       setIsLoading(false)
       setShouldFetchSnippet(false)
     })
-  }, [shouldFetchSnippet])
+  }, [hasPermission, shouldFetchSnippet])
 
   const uploadAudio = uri => {
     clearError()
@@ -79,6 +83,19 @@ const Main = () => {
         onBack={onBack}
         onRetry={onRetry}
       />
+    )
+  }
+
+  if (!hasPermission) {
+    return (
+      <PermissionRequest
+        permissions={[
+          Permissions.AUDIO_RECORDING
+        ]}
+        onPermissionGranted={() => setHasPermission(true)}
+      >
+        <Text>Please grant permission to record audio.</Text>
+      </PermissionRequest>
     )
   }
 

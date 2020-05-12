@@ -85,20 +85,6 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
     ).catch(onError)
   }
 
-  const [hasPermission, setHasPermission] = useState(false)
-  if (!hasPermission) {
-    return (
-      <PermissionRequest
-        permissions={[
-          Permissions.AUDIO_RECORDING
-        ]}
-        onPermissionGranted={() => setHasPermission(true)}
-      >
-        <Text>Please grant permission to record audio.</Text>
-      </PermissionRequest>
-    )
-  }
-
   return (
     <View style={styles.container}>
       <LongPressGestureHandler
