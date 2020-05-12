@@ -6,13 +6,12 @@ import { clear } from '../recorder'
 import LoadingScreen from '../LoadingScreen'
 import * as errorTypes from '../error-types'
 import RecordingScreen from '../RecordingScreen'
-import { fetchSentence, submitRecording } from '../api'
+import { fetchSnippet, submitRecording } from '../api'
 import prepareAudioForUpload from '../prepare-audio-for-upload.js'
 
 const Main = () => {
-  // TODO snippet not sentence
   const [shouldFetchSnippet, setShouldFetchSnippet] = useState(true)
-  const [sentence, setSentence] = useState(null)
+  const [snippet, setSnippet] = useState(null)
   const [snippetMetadata, setSnippetMetadata] = useState({})
   const [isLoading, setIsLoading] = useState(true)
   const [errorType, setErrorType] = useState(errorTypes.NONE)
@@ -31,8 +30,8 @@ const Main = () => {
     setError(null)
     setErrorType(errorTypes.NONE)
     setIsLoading(true)
-    fetchSentence().then(({ snippet, ...metadata }) => {
-      setSentence(snippet)
+    fetchSnippet().then(({ snippet, ...metadata }) => {
+      setSnippet(snippet)
       setSnippetMetadata(metadata)
     }).catch(
       handleError(errorTypes.FETCH_SMIPPET_ERROR)
@@ -102,11 +101,11 @@ const Main = () => {
     return <LoadingScreen />
   }
 
-  if (!sentence) return null
+  if (!snippet) return null
 
   return (
     <RecordingScreen
-      text={sentence}
+      text={snippet}
       onUpload={uploadAudio}
       onError={handleError(errorTypes.RECORDING_ERROR)}
     />

@@ -2,7 +2,7 @@ import { get, patch } from 'react-native-axios'
 
 const BASE_URL = 'https://api.hameed.info'
 
-export const fetchSentence = () =>
+export const fetchSnippet = () =>
   get(BASE_URL + '/speech/v1.0/snippets/')
     .then(({ data }) => data)
 
