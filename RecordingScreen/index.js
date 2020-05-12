@@ -1,15 +1,14 @@
-import * as Permissions from 'expo-permissions'
 import React, { useState, useEffect } from 'react'
 import { LongPressGestureHandler, State } from 'react-native-gesture-handler'
 import { Text, View, Button, Vibration } from 'react-native'
 
 import Buttons from './Buttons'
+import Textarea from './Textarea'
 import styles from '../util/styles'
 import * as recorder from '../util/recorder'
 import PermissionRequest from '../PermissionRequest'
 
 const VIBRATION_DURATION = 30
-const LONG_PRESS_DURATION = 50
 
 const RecordingScreen = ({ text, onUpload, onError }) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -43,27 +42,6 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
     }).catch(onError)
   }
 
-  const handleLongPress = ({ nativeEvent }) => {
-    if (isLoading || isPlaying) {
-      return
-    }
-
-    switch (nativeEvent.state) {
-      case State.ACTIVE:
-        if (!isRecording) {
-          startRecording()
-        }
-
-        break
-      case State.END:
-      case State.UNDEFINED:
-      default:
-        if (isRecording) {
-          stopRecording()
-        }
-    }
-  }
-
   const play = () => {
     setIsLoading(true)
     setIsPlaying(!isPlaying)
@@ -79,24 +57,24 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
     setIsLoading(true)
     setIsPlaying(!isPlaying)
 
-      return recorder.stopPlaying().then(() => setIsLoading(false)).catch(onError)
+    return recorder.stopPlaying().then(() => setIsLoading(false)).catch(onError)
   }
 
   return (
     <View style={styles.container}>
-      <LongPressGestureHandler
-        maxDist={1000}
-        minDurationMs={LONG_PRESS_DURATION}
-        onHandlerStateChange={handleLongPress}
-      >
-        {/* Accessible makes TalkBack treat the view as a whole, resulting in a large touchable area */}
-        <View
-          accessible
-          style={styles.swipeView}
-        >
-          <Text>{text}</Text>
-        </View>
-      </LongPressGestureHandler>
+      <Textarea
+        text={text}
+        isRecording={isRecording}
+        isRecordEnabled={!isLoading && !isPlaying}
+        onRecord={startRecording}
+        onStopRecording={stopRecording}
+        isPlaying={isPlaying}
+        isPlayEnabled={!isLoading && !isRecording && audioUri}
+        onPlay={play}
+        onStop={stop}
+        isUploadEnabled={!isLoading && !isRecording && audioUri && !isPlaying}
+        onUpload={e => onUpload(audioUri)}
+      />
 
       <Buttons
         isRecording={isRecording}
