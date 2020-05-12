@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { LongPressGestureHandler, State } from 'react-native-gesture-handler'
 import { Text, View, Button, Vibration } from 'react-native'
 
+import Buttons from './Buttons'
 import styles from '../util/styles'
 import * as recorder from '../util/recorder'
 import PermissionRequest from '../PermissionRequest'
@@ -114,26 +115,16 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
         </View>
       </LongPressGestureHandler>
 
-      <View style={styles.buttons}>
-        <Button
-          title={isRecording ? 'Stop' : 'Record'}
-          color='#c40905'
-          disabled={isLoading || isPlaying}
-          onPress={onRecordPress}
-        />
-        <Button
-          title={isPlaying ? 'Stop' : 'Play'}
-          color='#05c409'
-          disabled={isLoading || isRecording || !audioUri}
-          onPress={onPlayPress}
-        />
-        <Button
-          title='Upload'
-          color='#0905c4'
-          disabled={isLoading || isRecording || !audioUri || isPlaying}
-          onPress={e => onUpload(audioUri)}
-        />
-      </View>
+      <Buttons
+        isRecording={isRecording}
+        isRecordEnabled={!isLoading && !isPlaying}
+        onRecord={onRecordPress}
+        isPlaying={isPlaying}
+        isPlayEnabled={!isLoading && !isRecording && audioUri}
+        onPlay={onPlayPress}
+        isUploadEnabled={!isLoading && !isRecording && audioUri && !isPlaying}
+        onUpload={e => onUpload(audioUri)}
+      />
     </View>
   )
 }
