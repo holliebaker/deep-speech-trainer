@@ -43,12 +43,6 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
     }).catch(onError)
   }
 
-  const onRecordPress = () => {
-    isRecording
-      ? stopRecording()
-      : startRecording()
-  }
-
   const handleLongPress = ({ nativeEvent }) => {
     if (isLoading || isPlaying) {
       return
@@ -70,19 +64,22 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
     }
   }
 
-  const onPlayPress = () => {
+  const play = () => {
     setIsLoading(true)
     setIsPlaying(!isPlaying)
-
-    if (isPlaying) {
-      return recorder.stopPlaying().then(() => setIsLoading(false)).catch(onError)
-    }
 
     recorder.play(
       () => setIsPlaying(false)
     ).then(() =>
       setIsLoading(false)
     ).catch(onError)
+  }
+
+  const stop = () => {
+    setIsLoading(true)
+    setIsPlaying(!isPlaying)
+
+      return recorder.stopPlaying().then(() => setIsLoading(false)).catch(onError)
   }
 
   return (
@@ -104,10 +101,12 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
       <Buttons
         isRecording={isRecording}
         isRecordEnabled={!isLoading && !isPlaying}
-        onRecord={onRecordPress}
+        onRecord={startRecording}
+        onStopRecording={stopRecording}
         isPlaying={isPlaying}
         isPlayEnabled={!isLoading && !isRecording && audioUri}
-        onPlay={onPlayPress}
+        onPlay={play}
+        onStop={stop}
         isUploadEnabled={!isLoading && !isRecording && audioUri && !isPlaying}
         onUpload={e => onUpload(audioUri)}
       />
