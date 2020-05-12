@@ -19,7 +19,9 @@ Scan the supplied QR code or go to the url provided.
 ```bash
 # export expo - vill land in ./dist
 expo export --public-url https://holliebaker.github.io/trainer
+# or yarn export
 
 # push to some remote place, then compile the apk
 expo build:android --public-url https://holliebaker.github.io/trainer/android-index.json
+# or yarn build-apk
 ```
