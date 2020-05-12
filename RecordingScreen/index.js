@@ -60,32 +60,37 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
     return recorder.stopPlaying().then(() => setIsLoading(false)).catch(onError)
   }
 
+  const isRecordEnabled = !isLoading && !isPlaying
+  const isPlayEnabled = !isLoading && !isRecording && audioUri
+  const isUploadEnabled = isPlayEnabled && !isPlaying
+
   return (
     <View style={styles.container}>
       <Textarea
         text={text}
         isRecording={isRecording}
-        isRecordEnabled={!isLoading && !isPlaying}
+        isRecordEnabled={isRecordEnabled}
         onRecord={startRecording}
         onStopRecording={stopRecording}
         isPlaying={isPlaying}
-        isPlayEnabled={!isLoading && !isRecording && audioUri}
+        isPlayEnabled={isPlayEnabled}
         onPlay={play}
         onStop={stop}
-        isUploadEnabled={!isLoading && !isRecording && audioUri && !isPlaying}
+        isUploadEnabled={isUploadEnabled}
         onUpload={e => onUpload(audioUri)}
       />
 
       <Buttons
+        text={text}
         isRecording={isRecording}
-        isRecordEnabled={!isLoading && !isPlaying}
+        isRecordEnabled={isRecordEnabled}
         onRecord={startRecording}
         onStopRecording={stopRecording}
         isPlaying={isPlaying}
-        isPlayEnabled={!isLoading && !isRecording && audioUri}
+        isPlayEnabled={isPlayEnabled}
         onPlay={play}
         onStop={stop}
-        isUploadEnabled={!isLoading && !isRecording && audioUri && !isPlaying}
+        isUploadEnabled={isUploadEnabled}
         onUpload={e => onUpload(audioUri)}
       />
     </View>
