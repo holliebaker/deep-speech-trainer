@@ -37,21 +37,20 @@ const Textarea = ({
   }
 
   return (
-      <LongPressGestureHandler
-        maxDist={1000}
-        minDurationMs={LONG_PRESS_DURATION}
-        onHandlerStateChange={handleLongPress}
+    <LongPressGestureHandler
+      maxDist={1000}
+      minDurationMs={LONG_PRESS_DURATION}
+      onHandlerStateChange={handleLongPress}
+    >
+      {/* Accessible makes TalkBack treat the view as a whole, resulting in a large touchable area */}
+      <View
+        accessible
+        style={styles.swipeView}
       >
-        {/* Accessible makes TalkBack treat the view as a whole, resulting in a large touchable area */}
-        <View
-          accessible
-          style={styles.swipeView}
-        >
-          <Text>{text}</Text>
-        </View>
-      </LongPressGestureHandler>
+        <Text>{text}</Text>
+      </View>
+    </LongPressGestureHandler>
   )
 }
 
 export default Textarea
-

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Button, } from 'react-native'
+import { View, Button } from 'react-native'
 
 import styles from '../../util/styles'
 
@@ -9,7 +9,7 @@ const Buttons = ({
   isRecordEnabled,
   isPlayEnabled,
   isUploadEnabled,
-  onRecord, 
+  onRecord,
   onStopRecording,
   onPlay,
   onStop,
@@ -23,29 +23,28 @@ const Buttons = ({
     ? onStop
     : onPlay
 
-  return(
-  <View style={styles.buttons}>
-    <Button
-      title={isRecording ? 'Stop' : 'Record'}
-      color='#c40905'
-      disabled={!isRecordEnabled}
-      onPress={recordHandler}
-    />
-    <Button
-      title={isPlaying ? 'Stop' : 'Play'}
-      color='#05c409'
-      disabled={!isPlayEnabled}
-      onPress={playHandler}
-    />
-    <Button
-      title='Upload'
-      color='#0905c4'
-      disabled={!isUploadEnabled}
-      onPress={onUpload}
-    />
-  </View>
+  return (
+    <View style={styles.buttons}>
+      <Button
+        title={isRecording ? 'Stop' : 'Record'}
+        color='#c40905'
+        disabled={!isRecordEnabled}
+        onPress={recordHandler}
+      />
+      <Button
+        title={isPlaying ? 'Stop' : 'Play'}
+        color='#05c409'
+        disabled={!isPlayEnabled}
+        onPress={playHandler}
+      />
+      <Button
+        title='Upload'
+        color='#0905c4'
+        disabled={!isUploadEnabled}
+        onPress={onUpload}
+      />
+    </View>
   )
 }
 
 export default Buttons
-

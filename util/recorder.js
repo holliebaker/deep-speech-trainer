@@ -32,7 +32,7 @@ export const record = async () => {
 
 export const stopRecording = async () => {
   await recording.stopAndUnloadAsync()
-  result = await recording.createNewLoadedSoundAsync()
+  const result = await recording.createNewLoadedSoundAsync()
 
   sound = result.sound
   recording = null

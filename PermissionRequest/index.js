@@ -1,5 +1,5 @@
 import * as Permissions from 'expo-permissions'
-import { Text, View, Button } from 'react-native'
+import { View, Button } from 'react-native'
 import React, { useState, useEffect } from 'react'
 
 import styles from '../util/styles'

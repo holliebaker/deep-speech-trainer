@@ -1,12 +1,10 @@
+import { View, Vibration } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { LongPressGestureHandler, State } from 'react-native-gesture-handler'
-import { Text, View, Button, Vibration } from 'react-native'
 
 import Buttons from './Buttons'
 import Textarea from './Textarea'
 import styles from '../util/styles'
 import * as recorder from '../util/recorder'
-import PermissionRequest from '../PermissionRequest'
 
 const VIBRATION_DURATION = 30
 

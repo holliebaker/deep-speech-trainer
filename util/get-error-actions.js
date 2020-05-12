@@ -7,13 +7,15 @@ export default (triggerFetchSnippet, clearError) => type => {
 
   switch (type) {
     case errorTypes.FETCH_SNIPPET_ERROR:
-      onRetry = () => triggerFetchSnippet() 
+      onRetry = () => triggerFetchSnippet()
       break
     case errorTypes.SUBMIT_RECORDING_ERROR:
       onBack = () => {
         // clear the error, this will return the user to the recording screen
         clearError()
-     }
+      }
+
+      break
     case errorTypes.RECORDING_ERROR:
       onBack = () => {
         // clear the error, this will return the user to the recording screen
@@ -30,4 +32,3 @@ export default (triggerFetchSnippet, clearError) => type => {
     onRetry
   }
 }
-
