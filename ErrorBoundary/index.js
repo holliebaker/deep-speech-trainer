@@ -19,7 +19,6 @@ class ErrorBoundary extends React.Component {
 
   render () {
     if (this.state.error) {
-      console.log("should catch")
       return <ErrorScreen error={this.state.error} />
     }
 
