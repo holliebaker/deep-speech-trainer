@@ -24,13 +24,18 @@ const Main = () => {
     setErrorType(type)
   }
 
+  const clearError = () => {
+    setError(null)
+    setErrorType(errorTypes.NONE)
+  }
+
   useEffect(() => {
     if (!shouldFetchSnippet) return
 
     clear() // clear any recordings of previous snippets
-    setError(null)
-    setErrorType(errorTypes.NONE)
+    clearError()
     setIsLoading(true)
+
     fetchSnippet().then(({ snippet, ...metadata }) => {
       setSnippet(snippet)
       setSnippetMetadata(metadata)
@@ -43,8 +48,7 @@ const Main = () => {
   }, [shouldFetchSnippet])
 
   const uploadAudio = uri => {
-    setErrorType(errorTypes.NONE)
-    setError(null)
+    clearError()
     setIsLoading(true)
 
     prepareAudioForUpload(uri).then(base64 =>
@@ -64,7 +68,10 @@ const Main = () => {
   }
 
   if (errorType) {
-    const { onBack, onRetry } = getErrorActions(errorType)
+    const { onBack, onRetry } = getErrorActions(
+      clearError,
+      () => setShouldFetchSnippet(true)
+    )(errorType)
 
     return (
       <ErrorScreen
