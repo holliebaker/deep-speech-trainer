@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { ToastAndroid } from 'react-native'
 
 import ErrorScreen from '../ErrorScreen'
-import { clear } from '../recorder'
+import { clear } from '../util/recorder'
 import LoadingScreen from '../LoadingScreen'
-import * as errorTypes from '../error-types'
+import * as errorTypes from '../util/error-types'
 import RecordingScreen from '../RecordingScreen'
-import { fetchSnippet, submitRecording } from '../api'
-import prepareAudioForUpload from '../prepare-audio-for-upload.js'
+import { fetchSnippet, submitRecording } from '../util/api'
+import prepareAudioForUpload from '../util/prepare-audio-for-upload.js'
 
 const Main = () => {
   const [shouldFetchSnippet, setShouldFetchSnippet] = useState(true)

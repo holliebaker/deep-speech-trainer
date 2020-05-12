@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, Button } from 'react-native'
 
-import styles from '../styles'
+import styles from '../util/styles'
 
 const ErrorScreen = ({ error, onBack, onRetry }) =>
   <View style={styles.container}>
