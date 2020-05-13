@@ -1,9 +1,17 @@
 import { StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
+  titlebar: {
+    paddingTop: 32,
+    paddingBottom: 16,
+    paddingHorizontal: 16,
+    backgroundColor: '#b7b7b7',
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
+
   container: {
-    paddingVertical: 16,
-    paddingHorizontal: 8,
+    padding: 16,
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'stretch',
