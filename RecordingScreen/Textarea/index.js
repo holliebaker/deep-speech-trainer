@@ -45,7 +45,7 @@ const Textarea = ({
       {/* Accessible makes TalkBack treat the view as a whole, resulting in a large touchable area */}
       <View
         accessible
-        style={styles.swipeView}
+        style={styles.fillSpace}
       >
         <Text>{text}</Text>
       </View>

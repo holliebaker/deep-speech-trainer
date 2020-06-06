@@ -25,3 +25,13 @@ expo export --public-url https://holliebaker.github.io/trainer
 expo build:android --public-url https://holliebaker.github.io/trainer/android-index.json
 # or yarn build-apk
 ```
+
+# Pre-commithook
+
+Please
+```bash
+cp hooks/pro-commit .git/hooks
+```
+
+so that standard will run before every commit
+
