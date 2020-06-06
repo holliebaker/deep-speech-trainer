@@ -1,42 +1,59 @@
 import React from 'react'
-import { View, Text, Button } from 'react-native'
+import { ScrollView, View, Text, Button } from 'react-native'
 
 import styles from '../util/styles'
 
-const ErrorScreen = ({ error, onBack, onRetry }) =>
-  <View style={styles.container}>
-    <View style={styles.swipeView}>
-      <Text>Error</Text>
+const mapResponse = response => ({
+  status: response.status,
+  url: response.request.url,
+  method: response.request.method,
+  responseBody: response.data,
+  requestBody: response.config.data
+})
 
-      <Text>{error.message}</Text>
+const ErrorScreen = ({ error, onBack, onRetry, onSettings }) => {
+  const errorResponse = error.response && mapResponse(error.response)
 
-      {error.response && (
-        <Text>
-          {JSON.stringify({
-            states: error.response.status,
-            body: error.response.data,
-            // data: error.response.config.data,
-            method: error.response.method,
-            url: error.response.url
-          }, null, 2)}
-        </Text>
-      )}
+  return (
+    <View style={styles.container}>
+      <ScrollView>
+        <Text>Error</Text>
+
+        <Text>{error.message}</Text>
+
+        {onSettings && (
+          <Text>
+          Updating your settings may resolve this error.
+          </Text>
+        )}
+
+        {errorResponse && Object.keys(errorResponse).map(k => (
+          <Text key={k}>{k}: {errorResponse[k]}</Text>
+        ))}
+      </ScrollView>
+
+      <View style={styles.buttons}>
+        {onBack && (
+          <Button
+            title='Back'
+            onPress={onBack}
+          />
+        )}
+        {onRetry && (
+          <Button
+            title='Retry'
+            onPress={onRetry}
+          />
+        )}
+        {onSettings && (
+          <Button
+            title='Settings'
+            onPress={onSettings}
+          />
+        )}
+      </View>
     </View>
-
-    <View style={styles.buttons}>
-      {onBack && (
-        <Button
-          title='Back'
-          onPress={onBack}
-        />
-      )}
-      {onRetry && (
-        <Button
-          title='Retry'
-          onPress={onRetry}
-        />
-      )}
-    </View>
-  </View>
+  )
+}
 
 export default ErrorScreen

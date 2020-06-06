@@ -19,7 +19,7 @@ const SettingsScreen = ({ setScreen }) => {
   const onCancel = () => setScreen(MAIN)
   const onSave = () => {
     if (!isValid) {
-      setAlert('Please ensure the url is valid, includes the protocol (http / https) at the start, and ends with a forward slash')
+      setAlert('Please ensure the url is valid, starts with https, and ends with a forward slash')
 
       return
     }

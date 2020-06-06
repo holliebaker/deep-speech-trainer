@@ -17,10 +17,10 @@ import prepareAudioForUpload from '../util/prepare-audio-for-upload.js'
 const Main = ({ setScreen }) => {
   const [url, setUrl] = useState(null)
   const [hasPermission, setHasPermission] = useState(false)
-  const [shouldFetchSnippet, setShouldFetchSnippet] = useState(true)
+  const [shouldFetchSnippet, setShouldFetchSnippet] = useState(false)
   const [snippet, setSnippet] = useState(null)
   const [snippetMetadata, setSnippetMetadata] = useState({})
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const [errorType, setErrorType] = useState(errorTypes.NONE)
   const [error, setError] = useState(null)
 
@@ -40,9 +40,11 @@ const Main = ({ setScreen }) => {
 
   // load settings on mount
   useEffect(() => {
-    load().then(settings =>
+    console.log('in mount')
+    load().then(settings => {
       setUrl(settings.url)
-    ).catch(e =>
+      setShouldFetchSnippet(true)
+    }).catch(e =>
       // if there was a problem with loading the settings, the user probably wants to visit the settings screen to fix
       // it
       goToSettingsScreen()
@@ -57,11 +59,15 @@ const Main = ({ setScreen }) => {
     clearError()
     setIsLoading(true)
 
-    fetchSnippet().then(({ snippet, ...metadata }) => {
+    fetchSnippet(url).then(({ snippet, ...metadata }) => {
+      if (!snippet) {
+        throw new Error('No snippet was returned')
+      }
+
       setSnippet(snippet)
       setSnippetMetadata(metadata)
     }).catch(
-      handleError(errorTypes.FETCH_SMIPPET_ERROR)
+      handleError(errorTypes.FETCH_SNIPPET_ERROR)
     ).finally(() => {
       setIsLoading(false)
       setShouldFetchSnippet(false)
@@ -73,7 +79,7 @@ const Main = ({ setScreen }) => {
     setIsLoading(true)
 
     prepareAudioForUpload(uri).then(base64 =>
-      submitRecording(base64, snippetMetadata).then(res => {
+      submitRecording(url, base64, snippetMetadata).then(res => {
         ToastAndroid.show(
           'Upload successful!',
           ToastAndroid.SHORT
@@ -89,9 +95,10 @@ const Main = ({ setScreen }) => {
   }
 
   if (errorType) {
-    const { onBack, onRetry } = getErrorActions(
+    const { onBack, onRetry, onSettings } = getErrorActions(
+      () => setShouldFetchSnippet(true),
       clearError,
-      () => setShouldFetchSnippet(true)
+      goToSettingsScreen
     )(errorType)
 
     return (
@@ -99,6 +106,7 @@ const Main = ({ setScreen }) => {
         error={error}
         onBack={onBack}
         onRetry={onRetry}
+        onSettings={onSettings}
       />
     )
   }
@@ -120,11 +128,9 @@ const Main = ({ setScreen }) => {
     return <LoadingScreen />
   }
 
-  if (!snippet) return null
-
   return (
     <RecordingScreen
-      text={snippet}
+      text={snippet || 'No snippet was loaded'}
       onUpload={uploadAudio}
       onError={handleError(errorTypes.RECORDING_ERROR)}
       onSettings={goToSettingsScreen}

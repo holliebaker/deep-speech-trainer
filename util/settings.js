@@ -5,7 +5,7 @@ const SETTINGS_FILE = FileSystem.documentDirectory + 'settings.json'
 let cache = null
 
 export const save = settings => {
-  cache = save
+  cache = settings
   FileSystem.writeAsStringAsync(SETTINGS_FILE, JSON.stringify(settings))
 }
 
