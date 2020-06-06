@@ -1,11 +1,21 @@
-import React, { useState } from 'react'
-import { View, Text, TextInput } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, Text, TextInput, Button } from 'react-native'
 
 import styles from '../util/styles'
+import { MAIN } from '../util/screens'
+import { save, load } from '../util/settings'
 
-const SettingsScreen = () => {
-  const [url, setUrl] = useState('')
-  const [user, setUser] = useState('')
+const SettingsScreen = ({ setScreen }) => {
+  const [url, setUrl] = useState('test')
+  const onSave = () => {
+    save({ url })
+
+    setScreen(MAIN)
+  }
+
+  useEffect(() => {
+    load().then(settings => settings && setUrl(settings.url))
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -13,17 +23,16 @@ const SettingsScreen = () => {
         <Text>Server URL:</Text>
 
         <TextInput
-          onChongeText={setUrl}
+          textContentType='URL'
           value={url}
+          onChangeText={setUrl}
         />
       </View>
 
       <View>
-        <Text>Api User:</Text>
-
-        <TextInput
-          onChongeText={setUser}
-          value={user}
+        <Button
+          title='Save'
+          onPress={onSave}
         />
       </View>
     </View>

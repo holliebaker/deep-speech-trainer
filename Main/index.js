@@ -4,15 +4,16 @@ import { Text, ToastAndroid } from 'react-native'
 
 import ErrorScreen from '../ErrorScreen'
 import { clear } from '../util/recorder'
+import { SETTINGS } from '../util/screens'
 import LoadingScreen from '../LoadingScreen'
-import * as errorTypes from '../util/error-types'
 import RecordingScreen from '../RecordingScreen'
+import * as errorTypes from '../util/error-types'
 import PermissionRequest from '../PermissionRequest'
 import getErrorActions from '../util/get-error-actions'
 import { fetchSnippet, submitRecording } from '../util/api'
 import prepareAudioForUpload from '../util/prepare-audio-for-upload.js'
 
-const Main = () => {
+const Main = ({ setScreen }) => {
   const [hasPermission, setHasPermission] = useState(false)
   const [shouldFetchSnippet, setShouldFetchSnippet] = useState(true)
   const [snippet, setSnippet] = useState(null)
@@ -20,6 +21,8 @@ const Main = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [errorType, setErrorType] = useState(errorTypes.NONE)
   const [error, setError] = useState(null)
+
+  const goToSettingsScreen = () => setScreen(SETTINGS)
 
   const handleError = type => e => {
     console.log(e.response)
@@ -110,6 +113,7 @@ const Main = () => {
       text={snippet}
       onUpload={uploadAudio}
       onError={handleError(errorTypes.RECORDING_ERROR)}
+      onSettings={goToSettingsScreen}
     />
   )
 }

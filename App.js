@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
 import Main from './Main'
-import Titlebar from './Titlebar'
 import * as screens from './util/screens'
 import ErrorBoundary from './ErrorBoundary'
 import SettingsScreen from './SettingsScreen'
@@ -17,12 +16,7 @@ export default () => {
 
   return (
     <ErrorBoundary>
-      <Titlebar
-        screen={screen}
-        setScreen={setScreen}
-      />
-
-      <Screen />
+      <Screen setScreen={setScreen} />
     </ErrorBoundary>
   )
 }

@@ -1,4 +1,4 @@
-import { View, Vibration } from 'react-native'
+import { View, Vibration, Button } from 'react-native'
 import React, { useState, useEffect } from 'react'
 
 import Buttons from './Buttons'
@@ -8,7 +8,7 @@ import * as recorder from '../util/recorder'
 
 const VIBRATION_DURATION = 30
 
-const RecordingScreen = ({ text, onUpload, onError }) => {
+const RecordingScreen = ({ text, onUpload, onError, onSettings }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isRecording, setIsRecording] = useState(false)
   const [audioUri, setAudioUri] = useState(null)
@@ -64,6 +64,11 @@ const RecordingScreen = ({ text, onUpload, onError }) => {
 
   return (
     <View style={styles.container}>
+      <Button
+        title='Settings'
+        onPress={onSettings}
+      />
+
       <Textarea
         text={text}
         isRecording={isRecording}
