@@ -2,6 +2,7 @@ import * as Permissions from 'expo-permissions'
 import React, { useState, useEffect } from 'react'
 import { Text, ToastAndroid } from 'react-native'
 
+import { load } from '../util/settings'
 import ErrorScreen from '../ErrorScreen'
 import { clear } from '../util/recorder'
 import { SETTINGS } from '../util/screens'
@@ -14,6 +15,7 @@ import { fetchSnippet, submitRecording } from '../util/api'
 import prepareAudioForUpload from '../util/prepare-audio-for-upload.js'
 
 const Main = ({ setScreen }) => {
+  const [url, setUrl] = useState(null)
   const [hasPermission, setHasPermission] = useState(false)
   const [shouldFetchSnippet, setShouldFetchSnippet] = useState(true)
   const [snippet, setSnippet] = useState(null)
@@ -36,8 +38,20 @@ const Main = ({ setScreen }) => {
     setErrorType(errorTypes.NONE)
   }
 
+  // load settings on mount
   useEffect(() => {
-    if (!hasPermission || !shouldFetchSnippet) return
+    load().then(settings =>
+      setUrl(settings.url)
+    ).catch(e =>
+      // if there was a problem with loading the settings, the user probably wants to visit the settings screen to fix
+      // it
+      goToSettingsScreen()
+    )
+  }, [])
+
+  // reload snippet
+  useEffect(() => {
+    if (!url || !hasPermission || !shouldFetchSnippet) return
 
     clear() // clear any recordings of previous snippets
     clearError()
@@ -52,7 +66,7 @@ const Main = ({ setScreen }) => {
       setIsLoading(false)
       setShouldFetchSnippet(false)
     })
-  }, [hasPermission, shouldFetchSnippet])
+  }, [url, hasPermission, shouldFetchSnippet])
 
   const uploadAudio = uri => {
     clearError()

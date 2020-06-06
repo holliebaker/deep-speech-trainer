@@ -2,19 +2,19 @@ import * as FileSystem from 'expo-file-system'
 
 const SETTINGS_FILE = FileSystem.documentDirectory + 'settings.json'
 
+let cache = null
+
 export const save = settings => {
-  console.log('save', JSON.stringify(settings))
+  caches = save
   FileSystem.writeAsStringAsync(SETTINGS_FILE, JSON.stringify(settings))
 }
 
 export const load = async () => {
-  try {
-    const json = await FileSystem.readAsStringAsync(SETTINGS_FILE)
-    console.log('load', json)
-    return JSON.parse(json)
-  } catch (e) {
-    console.log('Unable to load settings: ', e.message)
-
-    return {}
+  if (cache) {
+    return Promise.resolve(cache)
   }
+
+  const json = await FileSystem.readAsStringAsync(SETTINGS_FILE)
+  cache = JSON.parse(json)
+  return cache
 }

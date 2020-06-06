@@ -10,8 +10,8 @@ const SettingsScreen = ({ setScreen }) => {
   const [url, setUrl] = useState('')
   const [isValid, setIsValid] = useState(true)
   const onUrlChange = newUrl => {
-    console.log(newUrl)
     setIsValid(validate(newUrl))
+
     setUrl(newUrl)
   }
 
@@ -30,10 +30,12 @@ const SettingsScreen = ({ setScreen }) => {
 
   useEffect(() => {
     load().then(settings =>
-      settings && setUrl(settings.url)
-    ).catch(e =>
-      setAlert(e.message)
-    )
+      setUrl(settings.url)
+    ).catch(e => {
+      console.log(e)
+
+      setAlert('Unable to load saved settings - this may be because no settings have been saved yet.')
+    })
   }, [])
 
   return (
@@ -42,7 +44,12 @@ const SettingsScreen = ({ setScreen }) => {
         <Text>Server URL:</Text>
 
         <TextInput
+          autoFocus
+          placeholder='https://example.com/speech/v1.0/'
           textContentType='URL'
+          autoCorrect={false}
+          autoCapitalize={'none'}
+          enablesReturnKeyAutomatically
           value={url}
           onChangeText={onUrlChange}
         />
