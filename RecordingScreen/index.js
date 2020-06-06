@@ -1,5 +1,5 @@
-import { View, Vibration, Button } from 'react-native'
 import React, { useState, useEffect } from 'react'
+import { View, Vibration, Button } from 'react-native'
 
 import Buttons from './Buttons'
 import Textarea from './Textarea'
@@ -64,10 +64,16 @@ const RecordingScreen = ({ text, onUpload, onError, onSettings }) => {
 
   return (
     <View style={styles.container}>
-      <Button
-        title='Settings'
-        onPress={onSettings}
-      />
+      <View style={styles.buttons}>
+        <View />
+
+        <Button
+          title='Settings'
+          color='#adadad'
+          style={{ alignSelf: 'flex-start' }}
+          onPress={onSettings}
+        />
+      </View>
 
       <Textarea
         text={text}

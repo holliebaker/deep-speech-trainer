@@ -16,6 +16,7 @@ const SettingsScreen = ({ setScreen }) => {
   }
 
   const [alertMessage, setAlert] = useState('')
+  const onCancel = () => setScreen(MAIN)
   const onSave = () => {
     if (!isValid) {
       setAlert('Please ensure the url is valid, includes the protocol (http / https) at the start, and ends with a forward slash')
@@ -40,30 +41,37 @@ const SettingsScreen = ({ setScreen }) => {
 
   return (
     <View style={styles.container}>
-      <View>
-        <Text>Server URL:</Text>
+      <View style={styles.fillSpace}>
+        <Text>
+          Server URL:
+        </Text>
 
         <TextInput
           autoFocus
           placeholder='https://example.com/speech/v1.0/'
           textContentType='URL'
           autoCorrect={false}
-          autoCapitalize={'none'}
+          autoCapitalize='none'
           enablesReturnKeyAutomatically
           value={url}
           onChangeText={onUrlChange}
         />
-      </View>
 
-      <View>
         <Text>
           {alertMessage}
         </Text>
       </View>
 
-      <View>
+      <View style={styles.buttons}>
+        <Button
+          title='Cancel'
+          color='#adadad'
+          onPress={onCancel}
+        />
+
         <Button
           title='Save'
+          color='#05c409'
           onPress={onSave}
         />
       </View>

@@ -18,14 +18,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
 
-  swipeView: {
+  fillSpace: {
     flex: 1,
     justifyContent: 'center'
   },
 
   buttons: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     alignItems: 'center',
     paddingBottom: 16
   }
